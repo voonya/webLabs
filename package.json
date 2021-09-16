@@ -4,9 +4,30 @@
   "description": "weblabs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint",
-    "prettier": "prettier"
+    "lint": "eslint **/*.js",
+    "lint:fix": "eslint **/*.js --fix",
+    "prettier": "prettier --write",
+    "format": "stylelint **/*.css",
+    "format:fix": "stylelint **/*.css --fix",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npx lint-staged --allow-empty"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,html}": [
+      "prettier --write",
+      "git add -A ."
+    ],
+    "*.{js,ts}": [
+      "eslint"
+    ],
+    "*.css": [
+      "stylelint --fix",
+      "git add -A ."
+    ]
   },
   "repository": {
     "type": "git",
@@ -20,8 +41,13 @@
   "homepage": "https://github.com/voonya/webLabs#readme",
   "devDependencies": {
     "eslint": "^7.32.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.1.2",
     "prettier": "2.4.0",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0"
+  },
+  "dependencies": {
+    "editorconfig": "^0.15.3"
   }
 }

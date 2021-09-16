@@ -11,14 +11,17 @@
   margin: 0;
   padding: 0;
 }
+
 a {
   text-decoration: none;
   color: var(--balck);
 }
+
 html,
 body {
   height: 100%;
 }
+
 .wrapper {
   display: grid;
   grid-template: 1fr minmax(50%, auto) 1fr / 1fr 5fr;
@@ -31,12 +34,14 @@ body {
   background-color: var(--bg-white);
   color: var(--white);
 }
+
 .sidebar-content,
 .sidebar-footer {
   padding: 15px 20px;
   display: flex;
   align-items: center;
 }
+
 .sidebar-content {
   grid-area: sidebar;
   background-color: var(--bg-darkblue);
@@ -46,6 +51,7 @@ body {
   grid-area: side-footer;
   background-color: var(--bg-red);
 }
+
 .header,
 .content-footer {
   display: flex;
@@ -53,14 +59,17 @@ body {
   align-items: center;
   padding: 0 30px;
 }
+
 .header {
   grid-area: header;
   background-color: var(--bg-darkblue);
 }
+
 .header h1,
 nav {
   flex: 1 1 auto;
 }
+
 .header ul {
   list-style: none;
   display: flex;
@@ -68,6 +77,7 @@ nav {
   text-transform: uppercase;
   color: var(--white);
 }
+
 .main-content {
   grid-area: main;
   display: flex;
@@ -83,11 +93,13 @@ nav {
   grid-area: footer;
   background-color: var(--bg-darkblue);
 }
+
 .content-footer h1 {
   flex: 1;
   margin-left: 20px;
   text-align: center;
 }
+
 .content-footer span {
   flex: 4;
 }
