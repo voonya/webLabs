@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint **/*.js",
     "lint:fix": "eslint **/*.js --fix",
-    "prettier": "prettier --write",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
     "format": "stylelint **/*.css",
     "format:fix": "stylelint **/*.css --fix",
     "prepare": "husky install"
@@ -18,15 +19,13 @@
   },
   "lint-staged": {
     "*.{js,ts,html}": [
-      "prettier --write",
-      "git add -A ."
+      "prettier --check ."
     ],
     "*.{js,ts}": [
-      "eslint"
+      "eslint **/*.js"
     ],
     "*.css": [
-      "stylelint --fix",
-      "git add -A ."
+      "stylelint **/*.css"
     ]
   },
   "repository": {
@@ -40,14 +39,14 @@
   },
   "homepage": "https://github.com/voonya/webLabs#readme",
   "devDependencies": {
+    "@nodeart/eslint-plugin": "^1.3.0",
     "eslint": "^7.32.0",
+    "eslint-plugin-sonarjs": "^0.10.0",
     "husky": "^7.0.0",
     "lint-staged": "^11.1.2",
     "prettier": "2.4.0",
+    "sonarjs": "^1.0.0",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0"
-  },
-  "dependencies": {
-    "editorconfig": "^0.15.3"
   }
 }

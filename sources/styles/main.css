@@ -17,12 +17,11 @@ a {
   color: var(--balck);
 }
 
-html,
-body {
+html {
   height: 100%;
 }
 
-.wrapper {
+body {
   display: grid;
   grid-template: 1fr minmax(50%, auto) 1fr / 1fr 5fr;
   min-height: 100%;
@@ -52,7 +51,7 @@ body {
   background-color: var(--bg-red);
 }
 
-.header,
+header,
 .content-footer {
   display: flex;
   justify-content: space-between;
@@ -60,17 +59,17 @@ body {
   padding: 0 30px;
 }
 
-.header {
+header {
   grid-area: header;
   background-color: var(--bg-darkblue);
 }
 
-.header h1,
+header h1,
 nav {
   flex: 1 1 auto;
 }
 
-.header ul {
+header ul {
   list-style: none;
   display: flex;
   justify-content: space-around;
