@@ -3,6 +3,6 @@
     "es6": true,
     "browser": true
   },
-  "plugin": ["@nodeart"],
-  "extends": ["plugin:@nodeart/base"]
+  "plugins": ["@nodeart", "sonarjs"],
+  "extends": ["plugin:@nodeart/base", "plugin:sonarjs/recommended"]
 }
