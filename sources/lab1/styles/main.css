@@ -52,7 +52,7 @@ body {
 }
 
 header,
-.content-footer {
+footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -88,17 +88,17 @@ header ul {
   padding: 40px 50px;
 }
 
-.content-footer {
+footer {
   grid-area: footer;
   background-color: var(--bg-darkblue);
 }
 
-.content-footer h1 {
+footer h1 {
   flex: 1;
   margin-left: 20px;
   text-align: center;
 }
 
-.content-footer span {
+footer span {
   flex: 4;
 }
