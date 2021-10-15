@@ -25,7 +25,7 @@
 		data['refferal'] = reffererVal;
 
 		try {
-			await fetch('/api/sendmail', {
+			await fetch('https://us-central1-lab2-e8ed8.cloudfunctions.net/sendmail', {
 				headers: {
 					'Content-Type': 'application/json'
 				},
