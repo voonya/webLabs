@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const sanitizeHtml = require("sanitize-html");
-const cors = require("cors")({origin: true});
+//const cors = require("cors")({origin: true});
 const gmail = "postmaster@sandbox687accaf48fa4a3d868bd655c80c736b.mailgun.org";
 
 const transporter = nodemailer.createTransport({
@@ -21,7 +21,7 @@ const rateLimit = {
 
 exports.sendmail = functions.https.onRequest((req, res) => {
   console.log(req.ip);
-  cors(req, res, ()=>{
+  //cors(req, res, ()=>{
   const ipReq = req.headers["x-forwarded-for"];
   const reqCount = rateLimit.ipCache.get(ipReq) || 0;
   rateLimit.ipCache.set(ipReq, reqCount + 1);
@@ -53,5 +53,5 @@ exports.sendmail = functions.https.onRequest((req, res) => {
     }
     return res.status(200).json({data: "ok"});
   });
-  });
+  //});
 });
