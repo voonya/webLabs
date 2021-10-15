@@ -4,7 +4,7 @@
   "description": "weblabs",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint **/*.js --ignore-path .gitignore",
+    "lint": "eslint **/*.js --ignore-path .gitignore --no-error-on-unmatched-pattern",
     "lint:fix": "eslint **/*.js --fix --ignore-path .gitignore",
     "format": "prettier --check . --ignore-path ./.prettierignore",
     "format:fix": "prettier --write . --ignore-path ./.prettierignore",
