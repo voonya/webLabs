@@ -23,9 +23,9 @@
 			data[key] = value;
 		}
 		data['refferal'] = reffererVal;
-
+		console.log(data);
 		try {
-			await fetch('/api/sendmail', {
+			await fetch('api/sendmail', {
 				headers: {
 					'Content-Type': 'application/json'
 				},
@@ -44,6 +44,7 @@
 			errorMessage = true;
 			showSpinner = false;
 			formBtnDisable = false;
+			statusMessage = false;
 		}
 	};
 </script>

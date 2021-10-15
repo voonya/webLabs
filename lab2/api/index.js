@@ -1,16 +1,15 @@
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const sanitizeHtml = require("sanitize-html");
-// const cors = require("cors")({origin: true});
-const gmail = "postmaster@sandbox687accaf48fa4a3d868bd655c80c736b.mailgun.org";
+const gmail = process.env.EMAIL_ADRESS;
 
 const transporter = nodemailer.createTransport({
   host: "smtp.mailgun.org",
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: "postmaster@sandbox687accaf48fa4a3d868bd655c80c736b.mailgun.org",
-    pass: "645cf51e53e98f2c88c128e72f4964c2-2ac825a1-26a0774a",
+    user: process.env.EMAIL_ADRESS,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -24,12 +23,12 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   const ipReq = req.headers["x-forwarded-for"];
   const reqCount = rateLimit.ipCache.get(ipReq) || 0;
   rateLimit.ipCache.set(ipReq, reqCount + 1);
-  if (rateLimit.ipCache.get(ipReq) > rateLimit.limit) {
-    console.log("here");
-    return res.status(400)
-        .json({code: 400, error: "Too many request wait a hour!"});
-  }
-
+  //   if (rateLimit.ipCache.get(ipReq) > rateLimit.limit) {
+  //     console.log("here");
+  //     return res.status(400)
+  //         .json({code: 400, error: "Too many request wait a hour!"});
+  //   }
+  console.log(req.body);
   if (!Object.keys(req.body ? req.body : {}).length) {
     return res.status(400).json({code: 400, error: "No message!"});
   }
@@ -40,13 +39,14 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   const htmlLines = sanitizeHtml(`<p><b>Message from form:</b></p>${lines}`);
 
   const mailOptions = {
-    from: `Contact form <${gmail}>`, //
-    to: "dlyarobot@gmail.com", // list of receivers
+    from: `Contact form <${process.env.EMAIL_FROM}>`, //
+    to: process.env.EMAIL_TO, // list of receivers
     subject: "Message contact form", // Subject line
     html: htmlLines, // html body
   };
   transporter.sendMail(mailOptions, (error) => {
     if (error) {
+      console.error("Error:");
       console.error("Error: ", error);
       return res.status(500).json({code: 500, error: error.message});
     }
