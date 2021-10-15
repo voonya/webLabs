@@ -25,7 +25,7 @@
 		data['refferal'] = reffererVal;
 
 		try {
-			await fetch('api/sendmail', {
+			await fetch('/api/sendmail', {
 				headers: {
 					'Content-Type': 'application/json'
 				},
@@ -77,12 +77,10 @@
 		{#if statusMessage}
 			<p class="status-text success">
 				Message sent!
-				<!-- <button class="close-btn" on:click=""></button> -->
 			</p>
 		{:else if errorMessage}
 			<p class="status-text error">
 				Email doesn`t exist
-				<!-- <button class="close-btn" on:click=""></button> -->
 			</p>
 		{/if}
 		{#if showSpinner}
