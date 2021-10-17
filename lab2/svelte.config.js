@@ -22,7 +22,7 @@ const config = {
 			server: {
 				proxy: {
 					'/api/sendmail': {
-						target: 'https://lab2-e8ed8.web.app/api/sendmail',
+						target: 'https://us-central1-lab2-e8ed8.cloudfunctions.net/sendmail',
 						changeOrigin: true,
 						secure: false,
 						rewrite: (path) => path.replace(/^\/api/, '')

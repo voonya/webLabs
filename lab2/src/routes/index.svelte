@@ -25,7 +25,7 @@
 		data['refferal'] = reffererVal;
 		console.log(data);
 		try {
-			await fetch('api/sendmail', {
+			await fetch('/api/sendmail', {
 				headers: {
 					'Content-Type': 'application/json'
 				},
@@ -54,15 +54,12 @@
 </svelte:head>
 
 <section>
-	<h1>
 		<div class="welcome">
 			<picture>
 				<source srcset="svelte-welcome.webp" type="image/webp" />
 				<img src="svelte-welcome.png" alt="Welcome" />
 			</picture>
 		</div>
-		to your new<br />SvelteKit app
-	</h1>
 	<form class="contact-form" on:submit|preventDefault={contactFormHandler}>
 		<input class="contact-form-input" type="text" placeholder="Name" name="userName" required />
 		<input class="contact-form-input" type="email" placeholder="Email" name="userMail" required />
@@ -89,11 +86,6 @@
 		{/if}
 		<button class="contact-form-btn" type="submit" disabled={formBtnDisable}> Submit </button>
 	</form>
-	<h2>
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
-
-	<Counter />
 </section>
 
 <style>
