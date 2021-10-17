@@ -1,15 +1,14 @@
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const sanitizeHtml = require("sanitize-html");
-const gmail = process.env.EMAIL_ADRESS;
 
 const transporter = nodemailer.createTransport({
   host: "smtp.mailgun.org",
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: process.env.EMAIL_ADRESS,
-    pass: process.env.EMAIL_PASS,
+    user: functions.config().mail.login,
+    pass: functions.config().mail.pass,
   },
 });
 
@@ -19,6 +18,7 @@ const rateLimit = {
 };
 
 exports.sendmail = functions.https.onRequest((req, res) => {
+  
   console.log(req.ip);
   const ipReq = req.headers["x-forwarded-for"];
   const reqCount = rateLimit.ipCache.get(ipReq) || 0;
@@ -39,8 +39,8 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   const htmlLines = sanitizeHtml(`<p><b>Message from form:</b></p>${lines}`);
 
   const mailOptions = {
-    from: `Contact form <${process.env.EMAIL_FROM}>`, //
-    to: process.env.EMAIL_TO, // list of receivers
+    from: `Contact form <${functions.config().mail.login}>`, //
+    to: functions.config().mail.to, // list of receivers
     subject: "Message contact form", // Subject line
     html: htmlLines, // html body
   };
