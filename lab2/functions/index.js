@@ -1,35 +1,36 @@
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const sanitizeHtml = require("sanitize-html");
-
+const admin = require("firebase-admin");
+admin.initializeApp();
 const transporter = nodemailer.createTransport({
   host: "smtp.mailgun.org",
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: functions.config().mail.login,
-    pass: functions.config().mail.pass,
+    user: "postmaster@sandbox1c61d084056d4e95b480946d23d5901d.mailgun.org",
+    pass: "6eeb877a3637535fd63fc77cce73ce19-2ac825a1-cce57cd1",
   },
 });
 
-const rateLimit = {
-  limit: 7,
-  ipCache: new Map(),
-};
+// const rateLimit = {
+//   limit: 7,
+//   ipCache: new Map(),
+// };
 
 exports.sendmail = functions.https.onRequest((req, res) => {
-  
   console.log(req.ip);
-  const ipReq = req.headers["x-forwarded-for"];
-  const reqCount = rateLimit.ipCache.get(ipReq) || 0;
-  rateLimit.ipCache.set(ipReq, reqCount + 1);
+  // const ipReq = req.headers["x-forwarded-for"];
+  // const reqCount = rateLimit.ipCache.get(ipReq) || 0;
+  // rateLimit.ipCache.set(ipReq, reqCount + 1);
   //   if (rateLimit.ipCache.get(ipReq) > rateLimit.limit) {
   //     console.log("here");
   //     return res.status(400)
   //         .json({code: 400, error: "Too many request wait a hour!"});
   //   }
-  console.log(req.body);
+  console.log(req);
   if (!Object.keys(req.body ? req.body : {}).length) {
+    console.log("error no body");
     return res.status(400).json({code: 400, error: "No message!"});
   }
 

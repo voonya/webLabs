@@ -23,7 +23,6 @@
 			data[key] = value;
 		}
 		data['refferal'] = reffererVal;
-		console.log(data);
 		try {
 			await fetch('/api/sendmail', {
 				headers: {
@@ -95,10 +94,6 @@
 		justify-content: center;
 		align-items: center;
 		flex: 1;
-	}
-
-	h1 {
-		width: 100%;
 	}
 
 	.welcome {
