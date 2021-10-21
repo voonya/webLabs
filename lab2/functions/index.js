@@ -1,15 +1,14 @@
 const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const sanitizeHtml = require("sanitize-html");
-const admin = require("firebase-admin");
-admin.initializeApp();
+
 const transporter = nodemailer.createTransport({
   host: "smtp.mailgun.org",
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
-    user: "postmaster@sandbox1c61d084056d4e95b480946d23d5901d.mailgun.org",
-    pass: "6eeb877a3637535fd63fc77cce73ce19-2ac825a1-cce57cd1",
+    user: functions.config().mail.login,
+    pass: functions.config().mail.pass,
   },
 });
 
@@ -47,7 +46,6 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   };
   transporter.sendMail(mailOptions, (error) => {
     if (error) {
-      console.error("Error:");
       console.error("Error: ", error);
       return res.status(500).json({code: 500, error: error.message});
     }

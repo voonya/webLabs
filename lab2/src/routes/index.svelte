@@ -24,14 +24,14 @@
 		}
 		data['refferal'] = reffererVal;
 		try {
-			await fetch('/api/sendmail', {
+			let res = await fetch('/api/sendmail', {
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify(data),
 				method: 'POST'
 			}).then((res) => {
-				if (res.status >= 200 && res.status < 300 && res.data == 'ok') {
+				if (res.status >= 200 && res.status < 300 && res.data === 'ok') {
 					return res;
 				}
 			});
