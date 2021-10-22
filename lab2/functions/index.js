@@ -12,25 +12,32 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// const rateLimit = {
-//   limit: 7,
-//   ipCache: new Map(),
-// };
+const rateLimit = {
+  time: 30,
+  ipCache: new Map(),
+};
 
 exports.sendmail = functions.https.onRequest((req, res) => {
-  console.log(req.ip);
-  // const ipReq = req.headers["x-forwarded-for"];
-  // const reqCount = rateLimit.ipCache.get(ipReq) || 0;
-  // rateLimit.ipCache.set(ipReq, reqCount + 1);
-  //   if (rateLimit.ipCache.get(ipReq) > rateLimit.limit) {
-  //     console.log("here");
-  //     return res.status(400)
-  //         .json({code: 400, error: "Too many request wait a hour!"});
-  //   }
-  console.log(req);
+  const ipReq = req.headers["fastly-client-ip"];
+  const now = new Date();
+  let reqUser = {};
+  if (rateLimit.ipCache.get(ipReq) === undefined) {
+    rateLimit.ipCache.set(ipReq, {time: new Date()});
+  } else {
+    reqUser = rateLimit.ipCache.get(ipReq);
+    console.log(ipReq);
+    console.log(now-reqUser.time);
+    if (now - reqUser.time <= rateLimit.time * 1000) {
+      return res.status(400)
+          .json({error: "Too many request!"});
+    }
+  }
+  reqUser = rateLimit.ipCache.get(ipReq);
+  reqUser.time = new Date();
+  rateLimit.ipCache.set(ipReq, reqUser);
+
   if (!Object.keys(req.body ? req.body : {}).length) {
-    console.log("error no body");
-    return res.status(400).json({code: 400, error: "No message!"});
+    return res.json({code: 400, error: "No message!"});
   }
 
   const lines = Object.entries(req.body)

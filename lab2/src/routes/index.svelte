@@ -3,12 +3,11 @@
 </script>
 
 <script>
-	import Counter from '$lib/Counter.svelte';
 	let showSpinner = false;
 	let statusMessage = false;
 	let errorMessage = false;
 	let formBtnDisable = false;
-
+	let errorText = '';
 	let contactFormHandler = async (e) => {
 		statusMessage = false;
 		formBtnDisable = true;
@@ -31,8 +30,11 @@
 				body: JSON.stringify(data),
 				method: 'POST'
 			}).then((res) => {
-				if (res.status >= 200 && res.status < 300 && res.data === 'ok') {
+				if (res.status >= 200 && res.status < 300 && res.ok) {
 					return res;
+				}
+				else{
+					throw(res);
 				}
 			});
 			statusMessage = true;
@@ -40,6 +42,12 @@
 			formBtnDisable = false;
 			e.target.reset();
 		} catch (e) {
+			if(e.status === 500){
+				errorText = 'Email doesn`t exist';
+			}
+			else{
+				errorText = 'You sent mail a lot of times';
+			}
 			errorMessage = true;
 			showSpinner = false;
 			formBtnDisable = false;
@@ -47,11 +55,6 @@
 		}
 	};
 </script>
-
-<svelte:head>
-	<title>Home</title>
-</svelte:head>
-
 <section>
 		<div class="welcome">
 			<picture>
@@ -59,6 +62,7 @@
 				<img src="svelte-welcome.png" alt="Welcome" />
 			</picture>
 		</div>
+	<h1>Please contact us</h1>
 	<form class="contact-form" on:submit|preventDefault={contactFormHandler}>
 		<input class="contact-form-input" type="text" placeholder="Name" name="userName" required />
 		<input class="contact-form-input" type="email" placeholder="Email" name="userMail" required />
@@ -77,7 +81,7 @@
 			</p>
 		{:else if errorMessage}
 			<p class="status-text error">
-				Email doesn`t exist
+				{errorText}
 			</p>
 		{/if}
 		{#if showSpinner}
@@ -86,66 +90,3 @@
 		<button class="contact-form-btn" type="submit" disabled={formBtnDisable}> Submit </button>
 	</form>
 </section>
-
-<style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
-
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
-
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
-	form {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-	.spinner {
-		background-color: #edf0f8;
-		border: 8px solid #f3f3f3; /* Light grey */
-		border-top: 8px solid #3498db; /* Blue */
-		border-radius: 50%;
-		width: 60px;
-		height: 60px;
-		animation: spin 2s linear infinite;
-		margin-bottom: 10px;
-	}
-
-	@keyframes spin {
-		0% {
-			transform: rotate(0deg);
-		}
-		100% {
-			transform: rotate(360deg);
-		}
-	}
-	input {
-		margin-bottom: 20px;
-	}
-	button {
-		flex-grow: 0;
-	}
-	textarea {
-		resize: none;
-		margin-bottom: 10px;
-	}
-	p {
-		font-weight: 600;
-		text-transform: uppercase;
-	}
-</style>
