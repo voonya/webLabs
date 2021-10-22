@@ -28,5 +28,8 @@
     "sonarjs": "^1.0.0",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0"
+  },
+  "dependencies": {
+    "ci": "^2.1.1"
   }
 }
