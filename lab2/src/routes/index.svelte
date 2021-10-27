@@ -42,11 +42,14 @@
 			formBtnDisable = false;
 			e.target.reset();
 		} catch (e) {
-			if(e.status === 500){
-				errorText = 'Email doesn`t exist';
+			if(e.status >= 500){
+				errorText = 'Server error';
 			}
-			else{
+			else if(e.status === 429){
 				errorText = 'You sent mail a lot of times';
+			}
+			else if(e.status === 400){
+				errorText = 'No message';
 			}
 			errorMessage = true;
 			showSpinner = false;

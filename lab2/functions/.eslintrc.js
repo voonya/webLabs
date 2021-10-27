@@ -1,4 +1,7 @@
 module.exports = {
+  parserOptions: {
+    "ecmaVersion": 2021,
+  },
   root: true,
   env: {
     es6: true,

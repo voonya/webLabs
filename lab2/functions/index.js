@@ -2,15 +2,23 @@ const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const sanitizeHtml = require("sanitize-html");
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.mailgun.org",
-  port: 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: functions.config().mail.login,
-    pass: functions.config().mail.pass,
-  },
-});
+const mailCredent = functions.config().mail;
+let transporter = null;
+
+if (mailCredent !== undefined) {
+  transporter = nodemailer.createTransport({
+    host: "smtp.mailgun.org",
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: mailCredent.login,
+      pass: mailCredent.pass,
+    },
+  });
+} else {
+  console.log("mailCredent is undefined");
+}
+
 
 const rateLimit = {
   time: 30,
@@ -21,6 +29,7 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   const ipReq = req.headers["fastly-client-ip"];
   const now = new Date();
   let reqUser = {};
+
   if (rateLimit.ipCache.get(ipReq) === undefined) {
     rateLimit.ipCache.set(ipReq, {time: new Date()});
   } else {
@@ -28,7 +37,7 @@ exports.sendmail = functions.https.onRequest((req, res) => {
     console.log(ipReq);
     console.log(now-reqUser.time);
     if (now - reqUser.time <= rateLimit.time * 1000) {
-      return res.status(400)
+      return res.status(429)
           .json({error: "Too many request!"});
     }
   }
@@ -36,26 +45,29 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   reqUser.time = new Date();
   rateLimit.ipCache.set(ipReq, reqUser);
 
-  if (!Object.keys(req.body ? req.body : {}).length) {
-    return res.json({code: 400, error: "No message!"});
+  if (!Object.keys(req.body ? req.body : {} === req.body ?? {})) {
+    return res.status(400).json({error: "No message!"});
   }
-
   const lines = Object.entries(req.body)
       .map(([key, value]) => `<p><b>${key}:</b> ${value}</p>`)
       .join("\n");
   const htmlLines = sanitizeHtml(`<p><b>Message from form:</b></p>${lines}`);
-
-  const mailOptions = {
-    from: `Contact form <${functions.config().mail.login}>`, //
-    to: functions.config().mail.to, // list of receivers
-    subject: "Message contact form", // Subject line
-    html: htmlLines, // html body
-  };
-  transporter.sendMail(mailOptions, (error) => {
-    if (error) {
-      console.error("Error: ", error);
-      return res.status(500).json({code: 500, error: error.message});
-    }
-    return res.status(200).json({data: "ok"});
-  });
+  
+  if (transporter != null) {
+    const mailOptions = {
+      from: `Contact form <${mailCredent.login}>`, //
+      to: mailCredent.to, // list of receivers
+      subject: "Message contact form", // Subject line
+      html: htmlLines, // html body
+    };
+    transporter.sendMail(mailOptions, (error) => {
+      if (error) {
+        console.error("Error: ", error);
+        return res.status(500).json({code: 500, error: error.message});
+      }
+      return res.status(200).json({data: "ok"});
+    });
+  } else {
+    return res.status(500).json({error: "Mail credential is undefined"});
+  }
 });
