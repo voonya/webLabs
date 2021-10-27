@@ -5,8 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint",
-    "prettier": "prettier"
+    "lint": "eslint **/*.js --ignore-path .gitignore --no-error-on-unmatched-pattern",
+    "lint:fix": "eslint **/*.js --fix --ignore-path .gitignore",
+    "format": "prettier --check . --ignore-path ./.prettierignore",
+    "format:fix": "prettier --write . --ignore-path ./.prettierignore",
+    "stylelint": "stylelint **/*.css --ignore-path .gitignore",
+    "stylelint:fix": "stylelint **/*.css --fix --ignore-path .gitignore"
   },
   "repository": {
     "type": "git",
