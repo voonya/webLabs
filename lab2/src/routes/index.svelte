@@ -32,9 +32,8 @@
 			}).then((res) => {
 				if (res.status >= 200 && res.status < 300 && res.ok) {
 					return res;
-				}
-				else{
-					throw(res);
+				} else {
+					throw res;
 				}
 			});
 			statusMessage = true;
@@ -42,13 +41,11 @@
 			formBtnDisable = false;
 			e.target.reset();
 		} catch (e) {
-			if(e.status >= 500){
+			if (e.status >= 500) {
 				errorText = 'Server error';
-			}
-			else if(e.status === 429){
+			} else if (e.status === 429) {
 				errorText = 'You sent mail a lot of times';
-			}
-			else if(e.status === 400){
+			} else if (e.status === 400) {
 				errorText = 'No message';
 			}
 			errorMessage = true;
@@ -58,13 +55,14 @@
 		}
 	};
 </script>
+
 <section>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
+	<div class="welcome">
+		<picture>
+			<source srcset="svelte-welcome.webp" type="image/webp" />
+			<img src="svelte-welcome.png" alt="Welcome" />
+		</picture>
+	</div>
 	<h1>Please contact us</h1>
 	<form class="contact-form" on:submit|preventDefault={contactFormHandler}>
 		<input class="contact-form-input" type="text" placeholder="Name" name="userName" required />
@@ -79,9 +77,7 @@
 		/>
 
 		{#if statusMessage}
-			<p class="status-text success">
-				Message sent!
-			</p>
+			<p class="status-text success">Message sent!</p>
 		{:else if errorMessage}
 			<p class="status-text error">
 				{errorText}
