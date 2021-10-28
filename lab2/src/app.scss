@@ -3,133 +3,145 @@
 @import '@fontsource/fira-mono';
 
 :root {
-	font-family: Arial, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-		Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family:
+    Arial,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
 
-	--font-mono: 'Fira Mono', monospace;
-	--pure-white: #fff;
-	--primary-color: #b9c6d2;
-	--secondary-color: #d0dde9;
-	--tertiary-color: #edf0f8;
-	--accent-color: #ff3e00;
-	--heading-color: rgba(0, 0, 0, 0.7);
-	--text-color: #444;
-	--background-without-opacity: rgba(255, 255, 255, 0.7);
-	--column-width: 42rem;
-	--column-margin-top: 4rem;
+  --font-mono: 'Fira Mono', monospace;
+  --pure-white: #fff;
+  --primary-color: #b9c6d2;
+  --secondary-color: #d0dde9;
+  --tertiary-color: #edf0f8;
+  --accent-color: #ff3e00;
+  --heading-color: rgba(0, 0, 0, 0.7);
+  --text-color: #444;
+  --background-without-opacity: rgba(255, 255, 255, 0.7);
+  --column-width: 42rem;
+  --column-margin-top: 4rem;
 }
 
 body {
-	min-height: 100vh;
-	margin: 0;
-	background: linear-gradient(
-		180deg,
-		var(--primary-color) 0%,
-		var(--secondary-color) 10.45%,
-		var(--tertiary-color) 41.35%
-	);
+  min-height: 100vh;
+  margin: 0;
+  background:
+    linear-gradient(
+      180deg,
+      var(--primary-color) 0%,
+      var(--secondary-color) 10.45%,
+      var(--tertiary-color) 41.35%
+    );
 }
 
 body::before {
-	content: '';
-	width: 80vw;
-	height: 100vh;
-	position: absolute;
-	top: 0;
-	left: 10vw;
-	z-index: -1;
-	background: radial-gradient(
-		50% 50% at 50% 50%,
-		var(--pure-white) 0%,
-		rgba(255, 255, 255, 0) 100%
-	);
-	opacity: 0.05;
+  content: '';
+  width: 80vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 10vw;
+  z-index: -1;
+  background:
+    radial-gradient(
+      50% 50% at 50% 50%,
+      var(--pure-white) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  opacity: 0.05;
 }
 
 @media (min-width: 720px) {
-	h1 {
-		font-size: 2.4rem;
-	}
+  h1 {
+    font-size: 2.4rem;
+  }
 }
 
 #svelte {
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
 
-	.welcome {
-		position: relative;
-		width: 100%;
-		height: 0;
-		padding: 0 0 calc(100% * 495 / 2048) 0;
-	}
+  .welcome {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding: 0 0 calc(100% * 495 / 2048) 0;
+  }
 
-	.welcome img {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		display: block;
-	}
+  .welcome img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: block;
+  }
 
-	h1 {
-		font-size: 2rem;
-	}
+  h1 {
+    font-size: 2rem;
+  }
 
-	h1,
-	p {
-		color: var(--heading-color);
-	}
+  h1,
+  p {
+    color: var(--heading-color);
+  }
 
-	form {
-		text-align: center;
+  form {
+    text-align: center;
 
-		input,
-		textarea {
-			display: block;
-			width: 100%;
-			margin-bottom: 10px;
-			font-family: inherit;
-			font-size: inherit;
-		}
+    input,
+    textarea {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      font-family: inherit;
+      font-size: inherit;
+    }
 
-		p {
-			font-weight: 600;
-			text-transform: uppercase;
-			line-height: 1.5;
-		}
+    p {
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.5;
+    }
 
-		button {
-			padding: 5px 10px;
-		}
-	}
+    button {
+      padding: 5px 10px;
+    }
+  }
 
-	.spinner {
-		background-color: #edf0f8;
-		border: 8px solid #f3f3f3; /* Light grey */
-		border-top: 8px solid #3498db; /* Blue */
-		border-radius: 50%;
-		width: 60px;
-		height: 60px;
-		animation: spin 2s linear infinite;
-		margin: 0 auto 10px auto;
-	}
+  .spinner {
+    background-color: #edf0f8;
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin: 0 auto 10px auto;
+  }
 
-	@keyframes spin {
-		0% {
-			transform: rotate(0deg);
-		}
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
 
-		100% {
-			transform: rotate(360deg);
-		}
-	}
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
