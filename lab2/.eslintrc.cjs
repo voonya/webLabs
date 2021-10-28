@@ -1,17 +1,14 @@
 module.exports = {
+	root: true,
+	extends: ['eslint:recommended', 'prettier'],
+	plugins: ['svelte3'],
 	parserOptions: {
-		"ecmaVersion": 2021,
-	  },
-	  root: true,
-	  env: {
-		es6: true,
-		node: true,
-	  },
-	  extends: [
-		"eslint:recommended",
-		"google",
-	  ],
-	  rules: {
-		quotes: ["error", "double"],
-	  },
+		sourceType: 'module',
+		ecmaVersion: 2019
+	},
+	env: {
+		browser: true,
+		es2017: true,
+		node: true
+	}
 };
