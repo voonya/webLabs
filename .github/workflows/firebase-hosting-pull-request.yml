@@ -7,12 +7,12 @@ jobs:
     build_and_preview:
         if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
         runs-on: ubuntu-latest
+        entryPoint: 'lab2/'
         steps:
             - uses: actions/checkout@v2
-            - run: cd lab2 && npm ci && npm run build
+            - run: npm ci && npm run build
             - uses: FirebaseExtended/action-hosting-deploy@v0
               with:
                   repoToken: '${{ secrets.GITHUB_TOKEN }}'
                   firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB2_E8ED8 }}'
                   projectId: lab2-e8ed8
-                  entryPoint: 'lab2/'

@@ -2,30 +2,29 @@ const functions = require("firebase-functions");
 const nodemailer = require("nodemailer");
 const sanitizeHtml = require("sanitize-html");
 
-const mailCredent = functions.config().mail;
-let transporter = null;
-
-if (mailCredent !== undefined) {
-  transporter = nodemailer.createTransport({
-    host: "smtp.mailgun.org",
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: mailCredent.login,
-      pass: mailCredent.pass,
-    },
-  });
-} else {
-  console.log("mailCredent is undefined");
-}
-
-
 const rateLimit = {
   time: 30,
   ipCache: new Map(),
 };
 
 exports.sendmail = functions.https.onRequest((req, res) => {
+  const mailCredent = functions.config().mail;
+  let transporter = null;
+
+  if (mailCredent) {
+    transporter = nodemailer.createTransport({
+      host: mailCredent.host,
+      port: mailCredent.port,
+      secure: false,
+      auth: {
+        user: mailCredent.login,
+        pass: mailCredent.pass,
+      },
+    });
+  } else {
+    functions.logger.log("Mail credential is undefined");
+    return res.status(500).json({error: "Mail credential is undefined"});
+  }
   const ipReq = req.headers["fastly-client-ip"];
   const now = new Date();
   let reqUser = {};
@@ -34,8 +33,8 @@ exports.sendmail = functions.https.onRequest((req, res) => {
     rateLimit.ipCache.set(ipReq, {time: new Date()});
   } else {
     reqUser = rateLimit.ipCache.get(ipReq);
-    console.log(ipReq);
-    console.log(now-reqUser.time);
+    functions.logger.log(ipReq);
+    functions.logger.log(now-reqUser.time);
     if (now - reqUser.time <= rateLimit.time * 1000) {
       return res.status(429)
           .json({error: "Too many request!"});
@@ -52,22 +51,18 @@ exports.sendmail = functions.https.onRequest((req, res) => {
       .map(([key, value]) => `<p><b>${key}:</b> ${value}</p>`)
       .join("\n");
   const htmlLines = sanitizeHtml(`<p><b>Message from form:</b></p>${lines}`);
-  
-  if (transporter != null) {
-    const mailOptions = {
-      from: `Contact form <${mailCredent.login}>`, //
-      to: mailCredent.to, // list of receivers
-      subject: "Message contact form", // Subject line
-      html: htmlLines, // html body
-    };
-    transporter.sendMail(mailOptions, (error) => {
-      if (error) {
-        console.error("Error: ", error);
-        return res.status(500).json({code: 500, error: error.message});
-      }
-      return res.status(200).json({data: "ok"});
-    });
-  } else {
-    return res.status(500).json({error: "Mail credential is undefined"});
-  }
+
+  const mailOptions = {
+    from: `Contact form <${mailCredent.login}>`, //
+    to: mailCredent.to, // list of receivers
+    subject: "Message contact form", // Subject line
+    html: htmlLines, // html body
+  };
+  transporter.sendMail(mailOptions, (error) => {
+    if (error) {
+      functions.logger.log("Error: ", error);
+      return res.status(500).json({code: 500, error: error.message});
+    }
+    return res.status(200).json({data: "ok"});
+  });
 });
