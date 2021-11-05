@@ -5,7 +5,7 @@ lab2/.firebase
 lab2/functions/.runtimeconfig.json
 *.log
 lab2/node_modules
-//node_modules
+/node_modules
 # Logs
 logs
 *.log
