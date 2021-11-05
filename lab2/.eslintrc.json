@@ -1,0 +1,16 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "prettier/prettier": "error"
+  },
+  "plugins": ["prettier", "sonarjs"],
+  "extends": ["eslint:recommended", "prettier", "plugin:sonarjs/recommended"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2021
+  }
+}

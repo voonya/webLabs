@@ -25,7 +25,7 @@ const config = {
             target: 'http://localhost:5001/lab2-e8ed8/us-central1/sendmail',
             changeOrigin: true,
             secure: false,
-            rewrite: (path) => path.replace(/^\/api/, ''),
+            rewrite: path => path.replace(/^\/api/, ''),
           },
         },
       },

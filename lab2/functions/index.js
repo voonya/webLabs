@@ -70,7 +70,7 @@ exports.sendmail = functions.https.onRequest((req, res) => {
     html: htmlLines,
   };
 
-  transporter.sendMail(mailOptions, (error) => {
+  transporter.sendMail(mailOptions, error => {
     if (error) {
       functions.logger.log('Error: ', error);
       res.status(500).json({ error: { code: 500, detail: error.message } });
