@@ -8,7 +8,7 @@
     "prettier/prettier": "error"
   },
   "plugins": ["sonarjs"],
-  "extends": ["eslint:recommended", "prettier", "plugin:sonarjs/recommended"],
+  "extends": ["eslint:recommended", "plugin:sonarjs/recommended"],
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2021
