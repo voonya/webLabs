@@ -8,20 +8,18 @@
   let errorMessage = false;
   let formBtnDisable = false;
   let errorText = '';
+  let form;
   let contactFormHandler = async (e) => {
     statusMessage = false;
     formBtnDisable = true;
     showSpinner = true;
 
-    const reffererVal = document.referrer;
-    const formData = new FormData(e.target);
     const data = {};
-
-    for (let field of formData) {
-      const [key, value] = field;
+    Array.from(form.elements).forEach((e)=>{
+      const key = e.name;
+      const value = e.value;
       data[key] = value;
-    }
-    data['refferal'] = reffererVal;
+    });
     try {
       let res = await fetch('/api/sendmail', {
         headers: {
@@ -30,23 +28,22 @@
         body: JSON.stringify(data),
         method: 'POST',
       }).then((res) => {
-        if (res.status >= 200 && res.status < 300 && res.ok) {
+        if (res.status === 200 && res.ok) {
           return res;
-        } else {
-          throw res;
         }
+        throw res;
       });
       statusMessage = true;
       showSpinner = false;
       formBtnDisable = false;
       e.target.reset();
-    } catch (e) {
-      if (e.status >= 500) {
-        errorText = 'Server error';
-      } else if (e.status === 429) {
-        errorText = 'You sent mail a lot of times';
-      } else if (e.status === 400) {
+    } catch (error) {
+      if (error.status === 400) {
         errorText = 'No message';
+      } else if (error.status === 429) {
+        errorText = 'You sent mail a lot of times';
+      } else {
+        errorText = 'Server error';
       }
       errorMessage = true;
       showSpinner = false;
@@ -57,14 +54,8 @@
 </script>
 
 <section>
-  <div class="welcome">
-    <picture>
-      <source srcset="svelte-welcome.webp" type="image/webp" />
-      <img src="svelte-welcome.png" alt="Welcome" />
-    </picture>
-  </div>
   <h1>Please contact us</h1>
-  <form class="contact-form" on:submit|preventDefault={contactFormHandler}>
+  <form class="contact-form" bind:this={form} on:submit|preventDefault={contactFormHandler}>
     <input
       class="contact-form-input"
       type="text"
