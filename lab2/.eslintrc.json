@@ -4,9 +4,6 @@
     "browser": true,
     "node": true
   },
-  "rules": {
-    "prettier/prettier": "error"
-  },
   "plugins": ["sonarjs"],
   "extends": ["eslint:recommended", "plugin:sonarjs/recommended"],
   "parserOptions": {
