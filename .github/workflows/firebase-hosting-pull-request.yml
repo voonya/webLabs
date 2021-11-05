@@ -20,4 +20,5 @@ jobs:
                   repoToken: '${{ secrets.GITHUB_TOKEN }}'
                   firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LAB2_E8ED8 }}'
                   projectId: lab2-e8ed8
-              PROJECT_PATH: ./lab2
+              env:
+                  PROJECT_PATH: ./lab2
