@@ -15,7 +15,7 @@
     showSpinner = true;
 
     const data = {};
-    Array.from(form.elements).forEach((e)=>{
+    Array.from(form.elements).forEach((e) => {
       const key = e.name;
       const value = e.value;
       data[key] = value;
@@ -55,7 +55,11 @@
 
 <section>
   <h1>Please contact us</h1>
-  <form class="contact-form" bind:this={form} on:submit|preventDefault={contactFormHandler}>
+  <form
+    class="contact-form"
+    bind:this={form}
+    on:submit|preventDefault={contactFormHandler}
+  >
     <input
       class="contact-form-input"
       type="text"
