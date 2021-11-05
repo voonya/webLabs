@@ -1,8 +1,7 @@
 module.exports = {
   root: true,
   extends: ['eslint:recommended', 'prettier', 'plugin:sonarjs/recommended'],
-  plugins: ['svelte3', 'prettier', 'sonarjs'],
-  overrides: [{ files: ['*.svelte'], processor: 'svelte3/svelte3' }],
+  plugins: ['prettier', 'sonarjs'],
   parserOptions: {
     sourceType: 'module',
     ecmaVersion: 2021,
