@@ -1,8 +1,3 @@
 *.css
 *.yml
 *.scss
-lab2/build
-lab2/.svelte-kit
-lab2/package
-lab2/.firebase
-lab2/functions/.runtimeconfig.json
