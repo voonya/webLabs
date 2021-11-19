@@ -9,17 +9,13 @@
   let formBtnDisable = false;
   let errorText = '';
   let form;
-  let contactFormHandler = async (e) => {
+  let contactFormHandler = async e => {
     statusMessage = false;
     formBtnDisable = true;
     showSpinner = true;
 
     const data = {};
-    Array.from(form.elements).forEach((e) => {
-      const key = e.name;
-      const value = e.value;
-      data[key] = value;
-    });
+    Array.from(form.elements).map(([key, value]) => (data[key] = value));
     try {
       let res = await fetch('/api/sendmail', {
         headers: {
@@ -27,12 +23,9 @@
         },
         body: JSON.stringify(data),
         method: 'POST',
-      }).then((res) => {
-        if (res.status === 200 && res.ok) {
-          return res;
-        }
-        throw res;
       });
+
+      console.log('Ok');
       statusMessage = true;
       showSpinner = false;
       formBtnDisable = false;

@@ -33,15 +33,15 @@ exports.sendmail = functions.https.onRequest((req, res) => {
 
   const ipReq = req.headers['fastly-client-ip'];
 
-  let userData = rateLimit.ipCache.get(ipReq);
   let timeNow = new Date();
-  if (!userData) {
-    userData = { time: timeNow - rateLimit.time * 1000, count: 0 };
-  }
+  let userData = rateLimit.ipCache.get(ipReq) ?? {
+    time: timeNow - rateLimit.time * 1000,
+    count: 0,
+  };
 
   if (
     timeNow - userData.time < rateLimit.time * 1000 ||
-    userData.count == rateLimit.maxCount
+    userData.count === rateLimit.maxCount
   ) {
     res.statusMessage = 'Server error';
     return res
@@ -57,11 +57,13 @@ exports.sendmail = functions.https.onRequest((req, res) => {
     return res.status(400).json({ error: { code: 400, detail: 'No message' } });
   }
 
-  const lines = Object.entries(req.body)
+  let lines = Object.entries(req.body)
     .map(([key, value]) => `<p><b>${key}:</b> ${value}</p>`)
     .join('\n');
 
-  const htmlLines = sanitizeHtml(`<p><b>Message from form:</b></p>${lines}`);
+  const clearData = sanitizeHtml(lines);
+
+  const htmlLines = `<p><b>Message from form:</b></p>${clearData}`;
 
   const mailOptions = {
     from: `Contact form <${mailCredent.login}>`,
@@ -73,8 +75,9 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   transporter.sendMail(mailOptions, error => {
     if (error) {
       functions.logger.log('Error: ', error);
-      res.status(500).json({ error: { code: 500, detail: error.message } });
-      return;
+      return res
+        .status(500)
+        .json({ error: { code: 500, detail: error.message } });
     }
     return res.status(200).json({ data: 'ok' });
   });
