@@ -50,7 +50,7 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   }
 
   userData.time = timeNow;
-  userData.count += 1;
+  userData.count++;
   rateLimit.ipCache.set(ipReq, userData);
 
   if (!Object.keys(req.body ?? {})) {

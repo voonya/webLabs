@@ -1,10 +1,10 @@
 .DS_Store
 node_modules
-/build
+*/build
 /.svelte-kit
 /package
 /.firebase
-/functions/.runtimeconfig.json
+lab2/functions/.runtimeconfig.json
 *.log
 
 /node_modules

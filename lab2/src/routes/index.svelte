@@ -13,43 +13,41 @@
     statusMessage = false;
     formBtnDisable = true;
     showSpinner = true;
-
+    errorMessage = false;
     const data = {};
-    Array.from(form.elements).forEach(element => {
+    Array.from(form.elements).filter(( element ) => element.tagName !== 'BUTTON')
+    .forEach(element => {
       const key = element.name;
       data[key] = element.value;
     });
-
-    let res = await fetch('/api/sendmail', {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-      method: 'POST',
-    })
-      .then(res => {
-        if (res.status === 200 && res.ok) {
-          statusMessage = true;
-          showSpinner = false;
-          formBtnDisable = false;
-          e.target.reset();
-          return res;
-        }
-        throw res;
-      })
-      .catch(error => {
-        if (error.status === 400) {
-          errorText = 'No message';
-        } else if (error.status === 429) {
-          errorText = 'You sent mail a lot of times';
-        } else {
-          errorText = 'Server error';
-        }
-        errorMessage = true;
-        showSpinner = false;
-        formBtnDisable = false;
-        statusMessage = false;
+    
+    try {
+      let res = await fetch('/api/sendmail', {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+        method: 'POST',
       });
+      if (!res.ok) {
+        throw res;
+      }
+      form.reset();
+      statusMessage = true;
+      return response;
+    } catch (error) {
+      if (error.status === 400) {
+        errorText = 'No message';
+      } else if (error.status === 429) {
+        errorText = 'You sent mail a lot of times';
+      } else {
+        errorText = 'Server error';
+      }
+      errorMessage = true;
+      formBtnDisable = false;
+    } finally {
+      showSpinner = false;
+    }
   };
 </script>
 
