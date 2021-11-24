@@ -4,7 +4,7 @@ node_modules
 /.svelte-kit
 /package
 /.firebase
-lab2/functions/.runtimeconfig.json
+.runtimeconfig.json
 *.log
 
 /node_modules
