@@ -52,8 +52,7 @@ exports.sendmail = functions.https.onRequest((req, res) => {
   userData.time = timeNow;
   userData.count++;
   rateLimit.ipCache.set(ipReq, userData);
-
-  if (!Object.keys(req.body ?? {})) {
+  if (!Object.keys(req.body ?? {}).length) {
     return res.status(400).json({ error: { code: 400, detail: 'No message' } });
   }
 
