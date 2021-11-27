@@ -1,0 +1,8 @@
+.DS_Store
+node_modules
+lab3/build
+lab3/.svelte-kit
+lab3/.svelte-kit
+/package
+.firebase/
+.env

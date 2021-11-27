@@ -1,8 +1,0 @@
-{
-  "env": {
-    "es6": true,
-    "browser": true
-  },
-  "plugins": ["@nodeart", "sonarjs"],
-  "extends": ["plugin:@nodeart/base", "plugin:sonarjs/recommended"]
-}

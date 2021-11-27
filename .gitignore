@@ -3,6 +3,11 @@ lab2/.svelte-kit
 lab2/package
 lab2/.firebase
 lab2/functions/.runtimeconfig.json
+lab3/build
+lab3/.svelte-kit
+lab3/package
+lab3/.firebase
+lab3/functions/.runtimeconfig.json
 *.log
 lab2/node_modules
 # Logs
