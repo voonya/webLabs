@@ -11,7 +11,6 @@
     "@sveltejs/kit": "next",
     "eslint-plugin-svelte3": "^3.2.1",
     "prettier": "^2.5.0",
-    "prettier-plugin-svelte": "^2.5.0",
     "sass": "^1.42.1",
     "svelte": "^3.34.0",
     "svelte-preprocess": "^4.9.8"
