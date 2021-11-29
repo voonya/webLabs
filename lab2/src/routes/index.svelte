@@ -7,20 +7,16 @@
   let statusMessage = false;
   let errorMessage = false;
   let formBtnDisable = false;
-  let errorText = '';
   let form;
   let contactFormHandler = async e => {
     statusMessage = false;
     formBtnDisable = true;
     showSpinner = true;
     errorMessage = false;
-    const data = {};
-    Array.from(form.elements).filter(( element ) => element.tagName !== 'BUTTON')
-    .forEach(element => {
-      const key = element.name;
-      data[key] = element.value;
-    });
     
+    const data = Array.from(form.elements)
+    .filter(( element ) => element.tagName !== 'BUTTON')
+    .map(el => [el.name, el.value]);
     try {
       let res = await fetch('/api/sendmail', {
         headers: {
@@ -37,13 +33,12 @@
       return response;
     } catch (error) {
       if (error.status === 400) {
-        errorText = 'No message';
+        errorMessage = 'No message';
       } else if (error.status === 429) {
-        errorText = 'You sent mail a lot of times';
+        errorMessage = 'You sent mail a lot of times';
       } else {
-        errorText = 'Server error';
+        errorMessage = 'Server error';
       }
-      errorMessage = true;
       formBtnDisable = false;
     } finally {
       showSpinner = false;
@@ -85,7 +80,7 @@
       <p class="status-text success">Message sent!</p>
     {:else if errorMessage}
       <p class="status-text error">
-        {errorText}
+        {errorMessage}
       </p>
     {/if}
     {#if showSpinner}
