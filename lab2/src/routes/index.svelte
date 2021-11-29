@@ -14,9 +14,9 @@
     showSpinner = true;
     errorMessage = false;
     
-    const data = Array.from(form.elements)
+    const data = Object.entries(Array.from(form.elements)
     .filter(( element ) => element.tagName !== 'BUTTON')
-    .map(el => [el.name, el.value]);
+    .map(el => [el.name, el.value]));
     try {
       let res = await fetch('/api/sendmail', {
         headers: {
