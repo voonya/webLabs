@@ -1,11 +1,7 @@
-/* Write your global styles here, in SCSS syntax. Variables and mixins from the src/variables.scss file are available here without importing */
-
-@import '@fontsource/fira-mono';
-
 body {
   min-height: 100vh;
   margin: 0;
   background-color: #3d3d3d;
   color: white;
-  font-family: Fira Mono, sans-serif;
+  font-family: 'Fira Mono', sans-serif;
 }

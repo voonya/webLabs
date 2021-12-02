@@ -11,8 +11,8 @@
     sizeTweet,
     showSpinner,
   } from '../lib/store.js';
-  import Tweet from '../components/Tweet.svelte';
-  import Popup from '../components/Popup.svelte';
+  import Tweet from '../lib/components/Tweet.svelte';
+  import Popup from '../lib/components/Popup.svelte';
   import { operationStore, subscription, setClient } from '@urql/svelte';
   import {
     createClient,
@@ -21,7 +21,7 @@
   } from '@urql/core';
   import { createClient as createWSClient } from 'graphql-ws';
   import { errorHandle, validateField } from '../lib/scripts.js';
-  import Spinner from '../components/Spinner.svelte';
+  import Spinner from '../lib/components/Spinner.svelte';
   const wsClient = createWSClient({
     url: import.meta.env.VITE_API_WSS_ENDPOINT,
     reconnect: true,

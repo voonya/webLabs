@@ -8,8 +8,8 @@
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
     "format": "prettier --check . --ignore-path .gitignore",
     "format:fix": "prettier --write . --ignore-path .gitignore",
-    "stylelint": "stylelint **/*.{css,scss,sass} --ignore-path .gitignore",
-    "stylelint:fix": "stylelint **/*.{css,scss,sass} --fix --ignore-path .gitignore",
+    "stylelint": "stylelint **/*.{css,scss} --ignore-path .gitignore",
+    "stylelint:fix": "stylelint **/*.{css,scss} --fix --ignore-path .gitignore",
     "prepare": "husky install"
   },
   "author": "",

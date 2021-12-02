@@ -7,9 +7,9 @@
     sizeTitle,
     sizeTweet,
     showSpinner,
-  } from '../lib/store.js';
-  import { errorHandle, validateField } from '../lib/scripts.js';
-  import { startFetchMyQuery } from '../hasura/graphqlScripts.js';
+  } from '../store.js';
+  import { errorHandle, validateField } from '../scripts.js';
+  import { startFetchMyQuery } from '../../hasura/graphqlScripts.js';
 
   export let tweet;
   let textArea;

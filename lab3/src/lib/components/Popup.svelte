@@ -1,5 +1,5 @@
 <script>
-  import { popupShow, popupMsg } from '../lib/store.js';
+  import { popupShow, popupMsg } from '../store.js';
   export function close() {
     popupShow.set(false);
   }
