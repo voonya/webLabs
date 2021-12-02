@@ -1,3 +1,8 @@
 *.css
 *.yml
 *.scss
+*/build
+*/.svelte-kit
+*/package
+*/.firebase
+*/functions/.runtimeconfig.json
