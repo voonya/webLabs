@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint . --ignore-path .gitignore --no-error-on-unmatched-pattern",
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
-    "format": "prettier --check **/*.{js,svelte} --ignore-path .gitignore",
-    "format:fix": "prettier --write **/*.{js,svelte} --ignore-path .gitignore",
+    "format": "prettier --check **/*.js --ignore-path .gitignore",
+    "format:fix": "prettier --write **/*.js --ignore-path .gitignore",
     "stylelint": "stylelint **/*.{css,scss} --ignore-path .gitignore",
     "stylelint:fix": "stylelint **/*.{css,scss} --fix --ignore-path .gitignore",
     "prepare": "husky install"
