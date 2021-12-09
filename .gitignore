@@ -1,10 +1,10 @@
-lab2/build
-lab2/.svelte-kit
-lab2/package
-lab2/.firebase
-lab2/functions/.runtimeconfig.json
+/build
+/.svelte-kit
+/package
+/.firebase
+/functions/.runtimeconfig.json
 *.log
-lab2/node_modules
+/node_modules
 # Logs
 logs
 *.log

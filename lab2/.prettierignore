@@ -1,6 +1,4 @@
-*.css
 *.yml
-*.scss
 /package
 /.firebase
 /functions/.runtimeconfig.json
