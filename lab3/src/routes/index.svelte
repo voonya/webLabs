@@ -6,10 +6,10 @@
   import { startFetchMyQuery } from '../hasura/graphqlScripts.js';
   import {
     tweets,
-    popupShow,
     sizeTitle,
     sizeTweet,
     showSpinner,
+    popupMsg,
   } from '../lib/store.js';
   import Tweet from '../lib/components/Tweet.svelte';
   import Popup from '../lib/components/Popup.svelte';
@@ -54,6 +54,8 @@
   let popup;
   let text;
   let title;
+  let dataValid = { title: true, text: true };
+
   const tw = operationStore(`
 		subscription newQ {
 				tweets(order_by: {time: desc}) {
@@ -69,12 +71,19 @@
     tweets.set(tw);
     return tw;
   };
+
   function loadAllTweets() {
     $showSpinner = true;
-    startFetchMyQuery('loadTweets').then(function (data) {
-      $tweets = [...data.tweets];
-      $showSpinner = false;
-    });
+    startFetchMyQuery('loadTweets')
+      .then(data => {
+        if (data[0]?.message && errorHandle(data[0])) {
+          return;
+        }
+        $tweets = [...data.tweets];
+      })
+      .finally(() => {
+        $showSpinner = false;
+      });
     subscription(tw, handleSubscription);
   }
 
@@ -89,14 +98,14 @@
       tweet[key] = value;
     });
 
-    title.style.border = 'none';
-    text.style.border = 'none';
-
-    if (!validateField($sizeTitle.min, $sizeTitle.max, title, 'Title')) {
-      title.style.border = '2px solid red';
+    Object.keys(dataValid).forEach(el => (dataValid[el] = true));
+    if (!validateField(sizeTitle.min, sizeTitle.max, title, 'Title')) {
+      dataValid.title = false;
       return;
-    } else if (!validateField($sizeTweet.min, $sizeTweet.max, text, 'Text')) {
-      text.style.border = '2px solid red';
+    }
+
+    if (!validateField(sizeTweet.min, sizeTweet.max, text, 'Text')) {
+      dataValid.text = false;
       return;
     }
 
@@ -104,17 +113,19 @@
     startFetchMyQuery('addTweet', {
       title: tweet.title,
       text: tweet.text,
-    }).then(function (data) {
-      showCreateTweetLoader = false;
-      if (data[0]?.message) {
-        errorHandle(data[0]);
-        return;
-      }
-      tweet.id = data.insert_tweets_one.id;
-      tweet.date = data.insert_tweets_one.date;
-      tweet.liked = false;
-      $tweets = [tweet, ...$tweets];
-    });
+    })
+      .then(data => {
+        if (data[0]?.message && errorHandle(data[0])) {
+          return;
+        }
+        tweet.id = data.insert_tweets_one.id;
+        tweet.date = data.insert_tweets_one.date;
+        tweet.liked = false;
+        $tweets = [tweet, ...$tweets];
+      })
+      .finally(() => {
+        showCreateTweetLoader = false;
+      });
   }
 </script>
 
@@ -126,11 +137,17 @@
         <Spinner />
       {:else}
         <form on:submit|preventDefault={createTweet} bind:this={form}>
-          <input name="title" placeholder="Title" bind:this={title} />
+          <input
+            name="title"
+            placeholder="Title"
+            bind:this={title}
+            class={dataValid.title ? '' : 'invalid'}
+          />
           <textarea
             name="text"
             placeholder="Type you tweet here"
             bind:this={text}
+            class={dataValid.text ? '' : 'invalid'}
           />
           <button type="submit">Create</button>
         </form>
@@ -145,7 +162,7 @@
         {/each}
       {/if}
     </div>
-    {#if $popupShow}
+    {#if $popupMsg}
       <Popup bind:this={popup} />
     {/if}
   </div>
@@ -201,7 +218,9 @@
     align-items: center;
     min-height: 150px;
   }
-
+  .invalid {
+    border: 2px solid red;
+  }
   @media (max-width: 960px) {
     .container {
       font-size: 14px;

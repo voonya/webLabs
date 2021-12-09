@@ -3,7 +3,6 @@
     tweets,
     editTweetID,
     popupMsg,
-    popupShow,
     sizeTitle,
     sizeTweet,
     showSpinner,
@@ -14,75 +13,83 @@
   export let tweet;
   let textArea;
   let titleInput;
+  let dataValid = { title: true, text: true };
+
   function likeClick() {
     $showSpinner = true;
-    startFetchMyQuery('updateLike', { id: tweet.id, liked: !tweet.liked }).then(
-      function (data) {
-        $showSpinner = false;
-        if (data[0]?.message) {
-          errorHandle(data[0]);
+    startFetchMyQuery('updateLike', { id: tweet.id, liked: !tweet.liked })
+      .then(data => {
+        if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
         tweet.liked = !tweet.liked;
-      }
-    );
+      })
+      .finally(() => {
+        $showSpinner = false;
+      });
   }
+
   function deleteClick() {
     let id = tweet.id;
     if (id === $editTweetID) {
       editTweetID.set(null);
-      popupShow.set(false);
+      popupMsg.set('');
     }
     $showSpinner = true;
-    startFetchMyQuery('deleteTweet', { id: tweet.id }).then(function (data) {
-      $showSpinner = false;
-      if (data[0]?.message) {
-        errorHandle(data[0]);
-        return;
-      }
-      tweets.set($tweets.filter(tweet => tweet.id != id));
-    });
+    startFetchMyQuery('deleteTweet', { id: tweet.id })
+      .then(data => {
+        if (data[0]?.message && errorHandle(data[0])) {
+          return;
+        }
+        tweets.set($tweets.filter(tweet => tweet.id != id));
+      })
+      .finally(() => {
+        $showSpinner = false;
+      });
   }
 
   function editTweet() {
     if ($editTweetID === tweet.id || !$editTweetID) {
       editTweetID.set(tweet.id);
-    } else {
-      popupMsg.set('Save current tweet before go to another');
-      popupShow.set(true);
-      setTimeout(() => popupShow.set(false), 4000);
+      return;
     }
+    popupMsg.set('Save current tweet before go to another');
+    setTimeout(() => popupMsg.set(''), 4000);
   }
   function saveTweet() {
-    popupShow.set(false);
-    titleInput.style.border = '1px solid #aa51f3';
-    textArea.style.border = '1px solid #aa51f3';
-
-    if (!validateField($sizeTitle.min, $sizeTitle.max, titleInput, 'Title')) {
-      titleInput.style.border = '2px solid red';
-      return;
-    } else if (
-      !validateField($sizeTweet.min, $sizeTweet.max, textArea, 'Text')
-    ) {
-      textArea.style.border = '2px solid red';
+    popupMsg.set('');
+    Object.keys(dataValid).forEach(el => (dataValid[el] = true));
+    if (!validateField(sizeTitle.min, sizeTitle.max, titleInput, 'Title')) {
+      dataValid.title = false;
       return;
     }
 
-    editTweetID.set(null);
+    if (!validateField(sizeTweet.min, sizeTweet.max, textArea, 'Text')) {
+      dataValid.text = false;
+      return;
+    }
+
     $showSpinner = true;
+    editTweetID.set(null);
+
+    let title = titleInput.value;
+    let text = textArea.value;
+
     startFetchMyQuery('editTweet', {
       id: tweet.id,
-      text: textArea.value,
-      title: titleInput.value,
-    }).then(function (data) {
-      $showSpinner = false;
-      if (data[0]?.message) {
-        errorHandle(data[0]);
-        return;
-      }
-      tweet.title = titleInput.value;
-      tweet.text = textArea.value;
-    });
+      text: text,
+      title: title,
+    })
+      .then(data => {
+        if (data[0]?.message && errorHandle(data[0])) {
+          return;
+        }
+        tweet.title = title;
+        tweet.text = text;
+      })
+      .finally(() => {
+        $showSpinner = false;
+      });
   }
   function discardChanges() {
     editTweetID.set(null);
@@ -92,7 +99,11 @@
 <div class="tweet">
   <div class="title">
     {#if $editTweetID === tweet.id}
-      <input bind:this={titleInput} value={tweet.title} />
+      <input
+        bind:this={titleInput}
+        value={tweet.title}
+        class={dataValid.title ? '' : 'invalid'}
+      />
     {:else}
       <h3>{tweet.title}</h3>
     {/if}
@@ -100,7 +111,11 @@
     <span>{tweet.date}</span>
   </div>
   {#if $editTweetID === tweet.id}
-    <textarea bind:this={textArea} class="tweet_text">{tweet.text}</textarea>
+    <textarea
+      bind:this={textArea}
+      class="tweet_text {dataValid.text ? '' : 'invalid'}"
+      >{tweet.text}</textarea
+    >
   {:else}
     <div class="tweet_text">{tweet.text}</div>
   {/if}
@@ -109,11 +124,10 @@
       <div class="btn save-btn" on:click={() => saveTweet()} />
       <div class="btn delete-btn" on:click={() => discardChanges()} />
     {:else}
-      {#if tweet.liked}
-        <div class="btn like-btn liked" on:click={() => likeClick()} />
-      {:else}
-        <div class="btn like-btn" on:click={() => likeClick()} />
-      {/if}
+      <div
+        class="btn like-btn {tweet.liked ? 'liked' : ''}"
+        on:click={() => likeClick()}
+      />
       <div class="btn edit-btn" on:click={() => editTweet()} />
       <div class="btn delete-btn" on:click={() => deleteClick()} />
     {/if}
@@ -176,6 +190,7 @@
   .save-btn {
     background-image: url('/static/check.png');
   }
+
   textarea {
     display: block;
     resize: none;
@@ -189,6 +204,9 @@
     background-color: #3d3d3d;
     border: 1px solid #aa51f3;
     outline: none;
+  }
+  .invalid {
+    border: 2px solid red;
   }
   @media (min-width: 1024px) {
     h3 {

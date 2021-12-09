@@ -1,14 +1,14 @@
 <script>
-  import { popupShow, popupMsg } from '../store.js';
+  import { popupMsg } from '../store.js';
   export function close() {
-    popupShow.set(false);
+    popupMsg.set('');
   }
 </script>
 
 <div class="popup">
   <h2>Caution</h2>
   <p>{$popupMsg}</p>
-  <div class="close-btn" on:click={() => close()}>&times;</div>
+  <div on:click={() => close()}>&times;</div>
 </div>
 
 <style>
@@ -28,7 +28,7 @@
   h2 {
     text-align: center;
   }
-  .close-btn {
+  .popup div {
     text-align: center;
     font-size: 1.5em;
     line-height: 25px;
