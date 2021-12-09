@@ -24,6 +24,7 @@
         }
         tweet.liked = !tweet.liked;
       })
+      .catch(()=>errorHandle())
       .finally(() => {
         $showSpinner = false;
       });
@@ -43,6 +44,7 @@
         }
         tweets.set($tweets.filter(tweet => tweet.id != id));
       })
+      .catch(()=>errorHandle())
       .finally(() => {
         $showSpinner = false;
       });
@@ -87,6 +89,7 @@
         tweet.title = title;
         tweet.text = text;
       })
+      .catch(()=>errorHandle())
       .finally(() => {
         $showSpinner = false;
       });

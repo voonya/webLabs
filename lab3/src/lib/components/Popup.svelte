@@ -25,6 +25,9 @@
     bottom: 20px;
     font-size: 0.8em;
   }
+  p{
+    text-align: center;
+  }
   h2 {
     text-align: center;
   }

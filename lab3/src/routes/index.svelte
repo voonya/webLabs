@@ -81,9 +81,11 @@
         }
         $tweets = [...data.tweets];
       })
+      .catch(()=>errorHandle())
       .finally(() => {
         $showSpinner = false;
       });
+      
     subscription(tw, handleSubscription);
   }
 
@@ -123,6 +125,7 @@
         tweet.liked = false;
         $tweets = [tweet, ...$tweets];
       })
+      .catch(()=>errorHandle())
       .finally(() => {
         showCreateTweetLoader = false;
       });
