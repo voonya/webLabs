@@ -12,7 +12,7 @@
     statusMessage = false;
     formBtnDisable = true;
     showSpinner = true;
-    errorMessage = false;
+    errorMessage = '';
     
     const data = Object.fromEntries(Array.from(form.elements)
     .filter(( element ) => element.tagName !== 'BUTTON')
