@@ -13,10 +13,12 @@
     formBtnDisable = true;
     showSpinner = true;
     errorMessage = '';
-    
-    const data = Object.fromEntries(Array.from(form.elements)
-    .filter(( element ) => element.tagName !== 'BUTTON')
-    .map(el => [el.name, el.value]));
+
+    const data = Object.fromEntries(
+      Array.from(form.elements)
+        .filter(element => element.tagName !== 'BUTTON')
+        .map(el => [el.name, el.value])
+    );
     try {
       let res = await fetch('/api/sendmail', {
         headers: {
