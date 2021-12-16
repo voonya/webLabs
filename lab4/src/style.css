@@ -1,0 +1,356 @@
+:root {
+  --main-color: rgb(135, 82, 179);
+  --bg-color: #3d3d3d;
+  --text-color: #fff;
+  --backdrop-color: rgba(0, 0, 0, 0.3);
+  --border-color: #000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background-color: var(--bg-color);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 3;
+  background-color: var(--main-color);
+  color: var(--text-color);
+}
+
+#burger {
+  position: relative;
+  margin-right: 10px;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--text-color);
+  border-radius: 100%;
+  display: none;
+}
+
+#burger span {
+  display: block;
+  width: 28px;
+  height: 2px;
+  position: absolute;
+  left: 50%;
+  margin-left: -14px;
+  transition: all ease 0.5s;
+  background-color: var(--text-color);
+}
+
+#burger span:nth-child(1) {
+  top: 10px;
+}
+
+#burger span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+  transition: all ease 0s;
+}
+
+#burger span:nth-child(3) {
+  bottom: 10px;
+}
+
+header input {
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+  display: none;
+  opacity: 0;
+}
+
+.burger-container {
+  background-color: var(--main-color);
+  max-width: 1650px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  z-index: 1;
+}
+
+header input:checked ~ div #burger span:nth-child(2) {
+  opacity: 0;
+}
+
+header input:checked ~ div #burger span:nth-child(1) {
+  top: 50%;
+  margin-top: -1px;
+  transform: rotate(135deg);
+}
+
+header input:checked ~ div #burger span:nth-child(3) {
+  top: 50%;
+  margin-top: -1px;
+  transform: rotate(-135deg);
+}
+
+nav {
+  display: block;
+  transition: all ease 0.5s;
+  background-color: var(--main-color);
+  z-index: 2;
+}
+
+header input:checked ~ nav {
+  display: block;
+}
+
+header input:checked ~ #backdrop {
+  display: block;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+li {
+  color: #fff;
+  padding: 10px 20px;
+  text-align: center;
+  transition: 0.3s;
+}
+
+li:hover {
+  background-color: var(--main-color);
+}
+
+li:first-child {
+  border: none;
+}
+
+h1 {
+  padding: 13px 0;
+  margin-left: 10px;
+  z-index: 2;
+}
+
+@media screen and (max-width: 768px) {
+  #burger,
+  header input {
+    display: block;
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  #backdrop {
+    content: '';
+    background: var(--backdrop-color);
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    display: none;
+  }
+
+  input:checked ~ #backdrop {
+    display: block;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .burger-container {
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  ul {
+    flex-direction: column;
+  }
+
+  li {
+    padding: 15px 0;
+  }
+
+  li:first-child {
+    border-top: 2px solid var(--text-color);
+  }
+
+  nav {
+    display: none;
+    width: 100%;
+  }
+}
+
+/* SLIDER */
+.slider {
+  margin: 100px auto 10px auto;
+  max-width: 900px;
+  position: relative;
+}
+
+.slider-container {
+  max-width: 700px;
+  width: 90%;
+  height: 400px;
+  border: 2px solid var(--main-color);
+  margin: 0 auto;
+  overflow: hidden;
+  text-align: center;
+  display: flex;
+  position: relative;
+}
+
+.slider-item {
+  height: 100%;
+  min-width: 100%;
+  display: block;
+  transition: 0.2s;
+  background-position: center center;
+  background-size: cover;
+}
+
+input[name='slider-radio'] {
+  display: none;
+}
+
+#i-1 {
+  background-image: url('./images/1.jpg');
+}
+
+#i-2 {
+  background-image: url('./images/2.jpg');
+}
+
+#i-3 {
+  background-image: url('./images/3.jpg');
+}
+
+#i-4 {
+  background-image: url('./images/4.jpg');
+}
+
+input#r-1:checked ~ .slider-container {
+  transform: translateX(0);
+}
+
+input#r-2:checked ~ .slider-container .slider-item {
+  transform: translateX(-100%);
+}
+
+input#r-3:checked ~ .slider-container .slider-item {
+  transform: translateX(-200%);
+}
+
+input#r-4:checked ~ .slider-container .slider-item {
+  transform: translateX(-300%);
+}
+
+input#r-1:checked ~ .slider-container label.left-button[for='r-4'],
+input#r-1:checked ~ .slider-container label.right-button[for='r-2'] {
+  display: block;
+}
+
+input#r-2:checked ~ .slider-container label.left-button[for='r-1'],
+input#r-2:checked ~ .slider-container label.right-button[for='r-3'] {
+  display: block;
+}
+
+input#r-3:checked ~ .slider-container label.left-button[for='r-2'],
+input#r-3:checked ~ .slider-container label.right-button[for='r-4'] {
+  display: block;
+}
+
+input#r-4:checked ~ .slider-container label.left-button[for='r-3'],
+input#r-4:checked ~ .slider-container label.right-button[for='r-1'] {
+  display: block;
+}
+
+.controls {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.radio-label {
+  display: block;
+  height: 8px;
+  width: 8px;
+  border: 2px solid var(--border-color);
+  background-color: var(--text-color);
+  border-radius: 100%;
+  margin-right: 10px;
+}
+
+input#r-1:checked ~ .controls label[for='r-1'],
+input#r-2:checked ~ .controls label[for='r-2'],
+input#r-3:checked ~ .controls label[for='r-3'],
+input#r-4:checked ~ .controls label[for='r-4'] {
+  background-color: var(--main-color);
+}
+
+label.swipe-btn {
+  height: 50px;
+  width: 20px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: none;
+}
+
+.left-button {
+  left: 10px;
+}
+
+.right-button {
+  right: 10px;
+}
+
+label.swipe-btn::before,
+label.swipe-btn::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 55%;
+  border: 2px solid var(--border-color);
+  background-color: var(--main-color);
+  left: 40%;
+  border-radius: 5px;
+}
+
+label.swipe-btn::before {
+  top: 0;
+}
+
+label.swipe-btn::after {
+  bottom: 0;
+}
+
+label.left-button::before,
+label.right-button::after {
+  transform: rotate(45deg);
+}
+
+label.left-button::after,
+label.right-button::before {
+  transform: rotate(-45deg);
+}
