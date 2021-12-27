@@ -5,7 +5,7 @@ export function errorHandle(errors) {
     popupMsg.set('You make a lot of requests. Try later');
     return true;
   }
-  popupMsg.set(`Server Error ${errors?.message}`);
+  popupMsg.set(`Server Error ${errors?.message ?? ''}`);
   return true;
 }
 
