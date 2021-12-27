@@ -1,3 +1,5 @@
+<svelte:options immutable={true} />
+
 <script>
   import {
     tweets,
@@ -16,7 +18,7 @@
   let dataValid = { title: true, text: true };
 
   function likeClick() {
-    $showSpinner = true;
+    $showSpinner++;
     startFetchMyQuery('updateLike', { id: tweet.id, liked: !tweet.liked })
       .then(data => {
         if (data[0]?.message && errorHandle(data[0])) {
@@ -26,7 +28,7 @@
       })
       .catch(()=>errorHandle())
       .finally(() => {
-        $showSpinner = false;
+        $showSpinner--;
       });
   }
 
@@ -36,17 +38,20 @@
       editTweetID.set(null);
       popupMsg.set('');
     }
-    $showSpinner = true;
+    $showSpinner++;
     startFetchMyQuery('deleteTweet', { id: tweet.id })
       .then(data => {
         if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
-        tweets.set($tweets.filter(tweet => tweet.id != id));
+        //tweets.set($tweets.filter(tweet => tweet.id != id));
+        /* you recommend to remove tweet with splice */
+        let index = $tweets.indexOf((el) => el.id === id);
+        $tweets.splice(index, 1);
       })
       .catch(()=>errorHandle())
       .finally(() => {
-        $showSpinner = false;
+        $showSpinner--;
       });
   }
 
@@ -71,7 +76,7 @@
       return;
     }
 
-    $showSpinner = true;
+    $showSpinner++;
     editTweetID.set(null);
 
     let title = titleInput.value;
@@ -91,7 +96,7 @@
       })
       .catch(()=>errorHandle())
       .finally(() => {
-        $showSpinner = false;
+        $showSpinner--;
       });
   }
   function discardChanges() {
@@ -105,7 +110,7 @@
       <input
         bind:this={titleInput}
         value={tweet.title}
-        class={dataValid.title ? '' : 'invalid'}
+        class:invalid={!dataValid.title}
       />
     {:else}
       <h3>{tweet.title}</h3>
@@ -116,7 +121,8 @@
   {#if $editTweetID === tweet.id}
     <textarea
       bind:this={textArea}
-      class="tweet_text {dataValid.text ? '' : 'invalid'}"
+      class="tweet_text"
+      class:invalid={!dataValid.text}
       >{tweet.text}</textarea
     >
   {:else}

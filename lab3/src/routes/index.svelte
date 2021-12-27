@@ -73,7 +73,7 @@
   };
 
   function loadAllTweets() {
-    $showSpinner = true;
+    $showSpinner++;
     startFetchMyQuery('loadTweets')
       .then(data => {
         if (data[0]?.message && errorHandle(data[0])) {
@@ -83,7 +83,7 @@
       })
       .catch(()=>errorHandle())
       .finally(() => {
-        $showSpinner = false;
+        $showSpinner--;
       });
       
     subscription(tw, handleSubscription);
@@ -94,20 +94,17 @@
   function createTweet() {
     let tweet = {};
 
-    Array.from(form.elements).forEach(e => {
-      const key = e.name;
-      const value = e.value;
-      tweet[key] = value;
-    });
-
-    Object.keys(dataValid).forEach(el => (dataValid[el] = true));
+    
+    Array.from(form.elements).filter(e => e.nodeName !== 'BUTTON').forEach(e => (tweet[e.name] = e.value));
+    console.log(Array.from(form.elements),tweet);
+    Object.keys(dataValid).forEach(el => (dataValid[el] = ''));
     if (!validateField(sizeTitle.min, sizeTitle.max, title, 'Title')) {
-      dataValid.title = false;
+      dataValid.title = 'invalid';
       return;
     }
 
     if (!validateField(sizeTweet.min, sizeTweet.max, text, 'Text')) {
-      dataValid.text = false;
+      dataValid.text = 'invalid';
       return;
     }
 
@@ -144,13 +141,13 @@
             name="title"
             placeholder="Title"
             bind:this={title}
-            class={dataValid.title ? '' : 'invalid'}
+            class={dataValid.title}
           />
           <textarea
             name="text"
             placeholder="Type you tweet here"
             bind:this={text}
-            class={dataValid.text ? '' : 'invalid'}
+            class={dataValid.text}
           />
           <button type="submit">Create</button>
         </form>
