@@ -169,6 +169,11 @@
 </div>
 
 <style>
+  :root{
+    --invalid-color: red;
+    --btn-bg: #17e339;
+    --text-color: #fff;
+  }
   .container {
     max-width: 1000px;
     margin: 0 auto;
@@ -201,8 +206,8 @@
     padding: 7px 20px;
     border-radius: 10px;
     border: none;
-    background-color: #17e339;
-    color: #fff;
+    background-color: var(--btn-bg);
+    color: var(--text-color);
   }
   form {
     width: 500px;
@@ -219,7 +224,7 @@
     min-height: 150px;
   }
   .invalid {
-    border: 2px solid red;
+    border: 2px solid var(--invalid-color);
   }
   @media (max-width: 960px) {
     .container {

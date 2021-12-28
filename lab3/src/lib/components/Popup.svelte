@@ -12,13 +12,18 @@
 </div>
 
 <style>
+  :root{
+    --bg-color: #2e2e2e;
+    --border-color: #ff0000; 
+    --text-color: #fff;
+  }
   .popup {
     display: block;
     width: 200px;
     padding: 15px 40px;
-    background-color: #2e2e2e;
-    color: #fff;
-    border: 2px solid #ff0000;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
     border-radius: 5px;
     position: fixed;
     right: 20px;

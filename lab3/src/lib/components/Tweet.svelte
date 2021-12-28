@@ -144,6 +144,15 @@
 </div>
 
 <style>
+  :root{
+    --bg-color: #3d3d3d;
+    --text-color: #fff;
+    --invalid-color: red;
+    --button-border: #000;
+    --main-color: #aa51f3;
+    --save-like-btn-bg: #17e339;
+    --delete-btn-bg: #ff0000;
+  }
   .tweet {
     margin-top: 20px;
     padding: 10px 0;
@@ -160,8 +169,7 @@
     font-size: 1.1em;
   }
   .tweet_text {
-    color: #fff;
-    background-color: #3d3d3d;
+    color: var(--text-color);
     margin-bottom: 15px;
     word-wrap: break-word;
   }
@@ -180,14 +188,14 @@
     width: 32px;
     padding: 5px;
     border-radius: 25px;
-    border: 2px solid #000;
+    border: 2px solid var(--button-border);
     transition: all ease 0.3s;
   }
   .like-btn {
     background-image: url('/static/heart.png');
   }
   .like-btn.liked {
-    background-color: #17e339;
+    background-color: var(--save-like-btn-bg);
   }
   .delete-btn {
     background-image: url('/static/cross.png');
@@ -206,16 +214,16 @@
     height: 150px;
     width: 100%;
     border: none;
-    border: 1px solid #aa51f3;
+    border: 1px solid var(--main-color);
   }
   input {
     color: #fff;
-    background-color: #3d3d3d;
-    border: 1px solid #aa51f3;
+    background-color: var(--bg-color);
+    border: 1px solid var(--main-color);
     outline: none;
   }
   .invalid {
-    border: 2px solid red;
+    border: 2px solid var(--invalid-color);
   }
   @media (min-width: 1024px) {
     h3 {
@@ -233,16 +241,16 @@
     }
     .like-btn.liked,
     .save-btn:hover {
-      background-color: #17e339;
+      background-color: var(--save-like-btn-bg);
     }
     .like-btn.liked:hover {
       background-color: transparent;
     }
     .delete-btn:hover {
-      background-color: #ff0000;
+      background-color: var(--delete-btn-bg);
     }
     .edit-btn:hover {
-      background-color: #aa51f3;
+      background-color: var(--main-color);
     }
   }
 </style>
