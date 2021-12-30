@@ -7,4 +7,3 @@ node_modules
 .env.*
 .vercel
 .output
-auth_config.js
