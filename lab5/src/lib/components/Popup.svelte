@@ -12,9 +12,9 @@
 </div>
 
 <style>
-  :root{
+  :root {
     --bg-color: #2e2e2e;
-    --border-color: #ff0000; 
+    --border-color: #ff0000;
     --text-color: #fff;
   }
   .popup {
@@ -30,7 +30,7 @@
     bottom: 20px;
     font-size: 0.8em;
   }
-  p{
+  p {
     text-align: center;
   }
   h2 {

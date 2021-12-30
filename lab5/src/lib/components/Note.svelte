@@ -2,68 +2,66 @@
 
 <script>
   import {
-    tweets,
-    editTweetID,
+    notes,
+    editNoteID,
     popupMsg,
     sizeTitle,
-    sizeTweet,
+    sizeNote,
     showSpinner,
   } from '../store.js';
   import { errorHandle, validateField } from '../scripts.js';
   import { startFetchMyQuery } from '../../hasura/graphqlScripts.js';
 
-  export let tweet;
+  export let note;
   let textArea;
   let titleInput;
   let dataValid = { title: true, text: true };
 
   function likeClick() {
     $showSpinner++;
-    startFetchMyQuery('updateLike', { id: tweet.id, liked: !tweet.liked })
+    startFetchMyQuery('updateLike', { id: note.id, liked: !note.liked })
       .then(data => {
         if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
-        tweet.liked = !tweet.liked;
+        note.liked = !note.liked;
       })
-      .catch(()=>errorHandle())
+      .catch(() => errorHandle())
       .finally(() => {
         $showSpinner--;
       });
   }
 
   function deleteClick() {
-    let id = tweet.id;
-    if (id === $editTweetID) {
-      editTweetID.set(null);
+    let id = note.id;
+    if (id === $editNoteID) {
+      editNoteID.set(null);
       popupMsg.set('');
     }
     $showSpinner++;
-    startFetchMyQuery('deleteTweet', { id: tweet.id })
+    startFetchMyQuery('deleteNote', { id: note.id })
       .then(data => {
         if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
-        //tweets.set($tweets.filter(tweet => tweet.id != id));
-        /* you recommend to remove tweet with splice */
-        let index = $tweets.indexOf((el) => el.id === id);
-        $tweets.splice(index, 1);
+        let index = $notes.findIndex(el => el.id === id);
+        $notes.splice(index, 1);
       })
-      .catch(()=>errorHandle())
+      .catch(() => errorHandle())
       .finally(() => {
         $showSpinner--;
       });
   }
 
-  function editTweet() {
-    if ($editTweetID === tweet.id || !$editTweetID) {
-      editTweetID.set(tweet.id);
+  function editNote() {
+    if ($editNoteID === note.id || !$editNoteID) {
+      editNoteID.set(note.id);
       return;
     }
-    popupMsg.set('Save current tweet before go to another');
+    popupMsg.set('Save current note before go to another');
     setTimeout(() => popupMsg.set(''), 4000);
   }
-  function saveTweet() {
+  function saveNote() {
     popupMsg.set('');
     Object.keys(dataValid).forEach(el => (dataValid[el] = true));
     if (!validateField(sizeTitle.min, sizeTitle.max, titleInput, 'Title')) {
@@ -71,19 +69,19 @@
       return;
     }
 
-    if (!validateField(sizeTweet.min, sizeTweet.max, textArea, 'Text')) {
+    if (!validateField(sizeNote.min, sizeNote.max, textArea, 'Text')) {
       dataValid.text = false;
       return;
     }
 
     $showSpinner++;
-    editTweetID.set(null);
+    editNoteID.set(null);
 
     let title = titleInput.value;
     let text = textArea.value;
 
-    startFetchMyQuery('editTweet', {
-      id: tweet.id,
+    startFetchMyQuery('editNote', {
+      id: note.id,
       text: text,
       title: title,
     })
@@ -91,60 +89,60 @@
         if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
-        tweet.title = title;
-        tweet.text = text;
+        note.title = title;
+        note.text = text;
       })
-      .catch(()=>errorHandle())
+      .catch(() => errorHandle())
       .finally(() => {
         $showSpinner--;
       });
   }
   function discardChanges() {
-    editTweetID.set(null);
+    editNoteID.set(null);
   }
 </script>
 
-<div class="tweet">
+<div class="note">
   <div class="title">
-    {#if $editTweetID === tweet.id}
+    {#if $editNoteID === note.id}
       <input
         bind:this={titleInput}
-        value={tweet.title}
+        value={note.title}
         class:invalid={!dataValid.title}
       />
     {:else}
-      <h3>{tweet.title}</h3>
+      <h3>{note.title}</h3>
     {/if}
 
-    <span>{tweet.date}</span>
+    <span>{note.date}</span>
   </div>
-  {#if $editTweetID === tweet.id}
+  {#if $editNoteID === note.id}
     <textarea
       bind:this={textArea}
-      class="tweet_text"
-      class:invalid={!dataValid.text}
-      >{tweet.text}</textarea
+      class="note_text"
+      class:invalid={!dataValid.text}>{note.text}</textarea
     >
   {:else}
-    <div class="tweet_text">{tweet.text}</div>
+    <div class="note_text">{note.text}</div>
   {/if}
   <div class="controls">
-    {#if $editTweetID === tweet.id}
-      <div class="btn save-btn" on:click={() => saveTweet()} />
+    {#if $editNoteID === note.id}
+      <div class="btn save-btn" on:click={() => saveNote()} />
       <div class="btn delete-btn" on:click={() => discardChanges()} />
     {:else}
       <div
-        class="btn like-btn {tweet.liked ? 'liked' : ''}"
+        class="btn like-btn"
+        class:liked={note.liked}
         on:click={() => likeClick()}
       />
-      <div class="btn edit-btn" on:click={() => editTweet()} />
+      <div class="btn edit-btn" on:click={() => editNote()} />
       <div class="btn delete-btn" on:click={() => deleteClick()} />
     {/if}
   </div>
 </div>
 
 <style>
-  :root{
+  :root {
     --bg-color: #3d3d3d;
     --text-color: #fff;
     --invalid-color: red;
@@ -153,7 +151,7 @@
     --save-like-btn-bg: #17e339;
     --delete-btn-bg: #ff0000;
   }
-  .tweet {
+  .note {
     margin-top: 20px;
     padding: 10px 0;
   }
@@ -168,12 +166,13 @@
     margin-bottom: 6px;
     font-size: 1.1em;
   }
-  .tweet_text {
+  .note_text {
     color: var(--text-color);
     margin-bottom: 15px;
     word-wrap: break-word;
+    text-align: left;
   }
-  .tweet_text:focus {
+  .note_text:focus {
     outline: none;
   }
   .controls {
@@ -215,6 +214,7 @@
     width: 100%;
     border: none;
     border: 1px solid var(--main-color);
+    background-color: var(--bg-color);
   }
   input {
     color: #fff;
