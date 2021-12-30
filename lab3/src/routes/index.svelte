@@ -130,6 +130,7 @@
 </script>
 
 <div class="wrapper">
+  <h1>Lab5</h1>
   <div class="container">
     <h1>MiniTwitter</h1>
     <div class="add-menu">
