@@ -39,7 +39,6 @@
 
     const authToken = await auth0Client.getIdTokenClaims();
     $token = authToken?.__raw ?? '';
-
     showLoader = false;
     if ($token !== '') {
       loadAllNotes();
