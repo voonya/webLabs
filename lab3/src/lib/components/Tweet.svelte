@@ -215,6 +215,7 @@
     width: 100%;
     border: none;
     border: 1px solid var(--main-color);
+    background-color: var(--bg-color);
   }
   input {
     color: #fff;
