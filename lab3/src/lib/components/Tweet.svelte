@@ -46,7 +46,7 @@
         }
         //tweets.set($tweets.filter(tweet => tweet.id != id));
         /* you recommend to remove tweet with splice */
-        let index = $tweets.indexOf((el) => el.id === id);
+        let index = $tweets.findIndex((el) => el.id === id);
         $tweets.splice(index, 1);
       })
       .catch(()=>errorHandle())
