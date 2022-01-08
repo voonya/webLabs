@@ -53,7 +53,7 @@ async function fetchGraphQL(operationsDoc, operationName, variables) {
     }),
   });
 
-  return await result.json();
+  return result.json();
 }
 
 function fetchMyQuery(request, variables) {

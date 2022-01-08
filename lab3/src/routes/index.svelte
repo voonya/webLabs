@@ -157,7 +157,7 @@
       {#if $showSpinner}
         <Spinner />
       {:else}
-        {#each $tweets as tweet}
+        {#each $tweets as tweet (tweet.id)}
           <Tweet {tweet} />
         {/each}
       {/if}

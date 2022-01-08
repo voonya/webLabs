@@ -130,15 +130,15 @@
   {/if}
   <div class="controls">
     {#if $editTweetID === tweet.id}
-      <div class="btn save-btn" on:click={() => saveTweet()} />
-      <div class="btn delete-btn" on:click={() => discardChanges()} />
+      <div class="btn save-btn" on:click={saveTweet} />
+      <div class="btn delete-btn" on:click={discardChanges} />
     {:else}
       <div
         class="btn like-btn {tweet.liked ? 'liked' : ''}"
-        on:click={() => likeClick()}
+        on:click={likeClick}
       />
-      <div class="btn edit-btn" on:click={() => editTweet()} />
-      <div class="btn delete-btn" on:click={() => deleteClick()} />
+      <div class="btn edit-btn" on:click={editTweet} />
+      <div class="btn delete-btn" on:click={deleteClick} />
     {/if}
   </div>
 </div>
