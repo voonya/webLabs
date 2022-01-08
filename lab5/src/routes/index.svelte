@@ -128,10 +128,10 @@
       <header>
         <h1>YourNotes</h1>
         {#if $isAuthenticated}
-          <button disabled={showLoader} on:click={() => logout()}>Logout</button
+          <button disabled={showLoader} on:click={logout}>Logout</button
           >
         {:else}
-          <button disabled={showLoader} on:click={() => login()}>Login</button>
+          <button disabled={showLoader} on:click={login}>Login</button>
         {/if}
       </header>
 

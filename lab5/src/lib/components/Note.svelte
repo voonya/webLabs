@@ -127,16 +127,16 @@
   {/if}
   <div class="controls">
     {#if $editNoteID === note.id}
-      <div class="btn save-btn" on:click={() => saveNote()} />
-      <div class="btn delete-btn" on:click={() => discardChanges()} />
+      <div class="btn save-btn" on:click={saveNote} />
+      <div class="btn delete-btn" on:click={discardChanges} />
     {:else}
       <div
         class="btn like-btn"
         class:liked={note.liked}
         on:click={() => likeClick()}
       />
-      <div class="btn edit-btn" on:click={() => editNote()} />
-      <div class="btn delete-btn" on:click={() => deleteClick()} />
+      <div class="btn edit-btn" on:click={editNote} />
+      <div class="btn delete-btn" on:click={deleteClick} />
     {/if}
   </div>
 </div>

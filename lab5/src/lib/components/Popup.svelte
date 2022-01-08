@@ -8,7 +8,7 @@
 <div class="popup">
   <h2>Caution</h2>
   <p>{$popupMsg}</p>
-  <div on:click={() => close()}>&times;</div>
+  <div on:click={close}>&times;</div>
 </div>
 
 <style>
