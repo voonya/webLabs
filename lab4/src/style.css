@@ -124,7 +124,7 @@ ul {
 }
 
 li {
-  color: #fff;
+  color: var(--text-colors);
   padding: 10px 20px;
   text-align: center;
   transition: 0.3s;
