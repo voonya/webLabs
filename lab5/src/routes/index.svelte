@@ -72,7 +72,7 @@
         }
         $notes = [...data.lab5_notes];
       })
-      .catch(() => errorHandle())
+      .catch(errorHandle)
       .finally(() => {
         $showSpinner--;
       });
@@ -109,7 +109,7 @@
         note.liked = false;
         $notes = [note, ...$notes];
       })
-      .catch(() => errorHandle())
+      .catch(errorHandle)
       .finally(() => {
         showLoader = false;
       });

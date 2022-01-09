@@ -27,7 +27,7 @@
         const index = $notes.findIndex(el => el.id === note.id);
         $notes[index] = { ...note };
       })
-      .catch(() => errorHandle())
+      .catch(errorHandle)
       .finally(() => {
         $showSpinner--;
       });
@@ -48,7 +48,7 @@
         // don`t use splice in order to make reactive sub in the shortest way
         $notes = $notes.filter(el => el.id !== id);
       })
-      .catch(() => errorHandle())
+      .catch(errorHandle)
       .finally(() => {
         $showSpinner--;
       });
@@ -95,7 +95,7 @@
         const index = $notes.findIndex(el => el.id === note.id);
         $notes[index] = { ...note };
       })
-      .catch(() => errorHandle())
+      .catch(errorHandle)
       .finally(() => {
         $showSpinner--;
       });
@@ -136,7 +136,7 @@
       <div
         class="btn like-btn"
         class:liked={note.liked}
-        on:click={() => likeClick()}
+        on:click={likeClick}
       />
       <div class="btn edit-btn" on:click={editNote} />
       <div class="btn delete-btn" on:click={deleteClick} />
