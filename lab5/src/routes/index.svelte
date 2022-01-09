@@ -70,7 +70,6 @@
         if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
-        console.log(data);
         $notes = [...data.lab5_notes];
       })
       .catch(() => errorHandle())

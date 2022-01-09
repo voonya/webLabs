@@ -45,8 +45,7 @@
         if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
-
-        // don`t use splice in order to make reactive sub
+        // don`t use splice in order to make reactive sub in the shortest way
         $notes = $notes.filter(el => el.id !== id);
       })
       .catch(() => errorHandle())
