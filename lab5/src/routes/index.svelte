@@ -18,16 +18,8 @@
   import Popup from '../lib/components/Popup.svelte';
   import { errorHandle, validateField } from '../lib/scripts.js';
   import Spinner from '../lib/components/Spinner.svelte';
-
   import { onMount } from 'svelte';
   import auth from '../lib/auth';
-
-  window.onoffline = () => {
-    isOnline.set(false);
-  };
-  window.ononline = () => {
-    isOnline.set(true);
-  };
 
   let auth0Client;
 
@@ -43,6 +35,13 @@
     if ($token !== '') {
       loadAllNotes();
     }
+
+    window.onoffline = () => {
+      isOnline.set(false);
+    };
+    window.ononline = () => {
+      isOnline.set(true);
+    };
   });
 
   token.subscribe(async value => {
@@ -128,8 +127,7 @@
       <header>
         <h1>YourNotes</h1>
         {#if $isAuthenticated}
-          <button disabled={showLoader} on:click={logout}>Logout</button
-          >
+          <button disabled={showLoader} on:click={logout}>Logout</button>
         {:else}
           <button disabled={showLoader} on:click={login}>Login</button>
         {/if}
@@ -159,9 +157,12 @@
         {/if}
       </div>
       {#if $isAuthenticated}
-        <div class="notes">
-          {#if $showSpinner}
-            <Spinner />
+        {#if $showSpinner}
+          <Spinner />
+        {/if}
+        <div class="notes" visibilty={!$showSpinner}>
+          {#if $notes.length === 0}
+            <h2>No notes</h2>
           {:else}
             {#each $notes as note (note.id)}
               <Note {note} />
@@ -241,6 +242,7 @@
     justify-content: center;
     align-items: center;
     min-height: 150px;
+    margin-bottom: 30px;
   }
   .invalid {
     border: 2px solid var(--invalid-color);

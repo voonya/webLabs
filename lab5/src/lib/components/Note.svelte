@@ -11,7 +11,6 @@
   } from '../store.js';
   import { errorHandle, validateField } from '../scripts.js';
   import { startFetchMyQuery } from '../../hasura/graphqlScripts.js';
-
   export let note;
   let textArea;
   let titleInput;
@@ -25,6 +24,8 @@
           return;
         }
         note.liked = !note.liked;
+        const index = $notes.findIndex(el => el.id === note.id);
+        $notes[index] = { ...note };
       })
       .catch(() => errorHandle())
       .finally(() => {
@@ -44,8 +45,9 @@
         if (data[0]?.message && errorHandle(data[0])) {
           return;
         }
-        let index = $notes.findIndex(el => el.id === id);
-        $notes.splice(index, 1);
+
+        // don`t use splice in order to make reactive sub
+        $notes = $notes.filter(el => el.id !== id);
       })
       .catch(() => errorHandle())
       .finally(() => {
@@ -91,6 +93,8 @@
         }
         note.title = title;
         note.text = text;
+        const index = $notes.findIndex(el => el.id === note.id);
+        $notes[index] = { ...note };
       })
       .catch(() => errorHandle())
       .finally(() => {

@@ -32,7 +32,7 @@ const queriesDoc = `
       }
     }
   query loadNotes {
-    lab5_notes {
+    lab5_notes(order_by: {time: desc}) {
       date
       id
       liked
