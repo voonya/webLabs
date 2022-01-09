@@ -1,7 +1,3 @@
-<script context="module">
-  export const ssr = false;
-</script>
-
 <script>
   import { startFetchMyQuery } from '../hasura/graphqlScripts.js';
   import {
