@@ -127,7 +127,6 @@
           <button disabled={showLoader} on:click={login}>Login</button>
         {/if}
       </header>
-
       <div class="add-menu">
         {#if showLoader}
           <Spinner />
