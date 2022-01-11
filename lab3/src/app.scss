@@ -1,0 +1,12 @@
+$bg-color: #3d3d3d;
+$font-color: #fff;
+$font-family: 'Fira Mono', sans-serif;
+
+
+
+body {
+  margin: 0;
+  background-color: $bg-color;
+  color: $font-color;
+  font-family: $font-family;
+}
