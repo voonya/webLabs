@@ -1,7 +1,7 @@
 <script>
   import { popupMsg } from '../store.js';
   export function close() {
-    popupMsg.set('');
+    $popupMsg = '';
   }
 </script>
 

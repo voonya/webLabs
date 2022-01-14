@@ -152,7 +152,9 @@
       </div>
       {#if $isAuthenticated}
         {#if $showSpinner}
+        <div class="spinner-fixed">
           <Spinner />
+        </div>
         {/if}
         <div class="notes" visibilty={!$showSpinner}>
           {#if $notes.length === 0}
@@ -244,6 +246,12 @@
 
   button:disabled {
     background-color: var(--btn-disable);
+  }
+  .spinner-fixed{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   @media (max-width: 960px) {
     .container {

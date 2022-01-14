@@ -134,7 +134,8 @@
       <div class="btn delete-btn" on:click={discardChanges} />
     {:else}
       <div
-        class="btn like-btn {tweet.liked ? 'liked' : ''}"
+        class="btn like-btn"
+        class:liked={tweet.liked}
         on:click={likeClick}
       />
       <div class="btn edit-btn" on:click={editTweet} />
