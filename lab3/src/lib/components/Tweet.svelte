@@ -143,7 +143,6 @@
     {/if}
   </div>
 </div>
-
 <style>
   :root{
     --bg-color: #3d3d3d;
